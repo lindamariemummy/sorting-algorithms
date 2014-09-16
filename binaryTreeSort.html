@@ -1,72 +1,69 @@
 <script>
 
-var toBeSorted = [4,1,8,5,2,6, 0];
+	var toBeSorted = [4,1,8,5,2,6, 0];
 
-//set head
-var head = new Node(toBeSorted[0]);
+	//set head
+	var head = new Node(toBeSorted[0]);
 
-//cycle through other values, insert into tree
-for (var i = 1; i< toBeSorted.length; i++){
-	
-	//creates new node for ith entry in toBeSorted
-	var temp = new Node(toBeSorted[i]);
-
-	//adds new node to tree
-	head.addToTree(temp);
-}
-
-//prints sorted tree
-head.printTree();
-
-function Node(value){
-	this.value = value;
-	this.hasLeftChild = false;
-	this.hasRightChild = false;
-
-	this.setLeft = function(node) {
-		this.leftChild = node;
-		this.hasLeftChild = true;
-	}
-
-	this.setRight = function(node) {
-		this.rightChild = node;
-		this.hasRightChild = true;
-	}
-
-	this.printTree = function() {
+	//cycle through other values, insert into tree
+	for (var i = 1; i< toBeSorted.length; i++){
 		
-		//print left tree
-		if (this.hasLeftChild) {
-			this.leftChild.printTree();
-		}
-		
-		//print parent value
-		console.log(value + " ");
+		//creates new node for ith entry in toBeSorted
+		var temp = new Node(toBeSorted[i]);
 
-		//print right tree
-		if (this.hasRightChild) {
-			this.rightChild.printTree();
-		}
+		//adds new node to tree
+		head.addToTree(temp);
 	}
 
-	//adds node to tree with current node as the head
-	this.addToTree = function(node) {
+	//prints sorted tree
+	head.printTree();
 
-		if (node.value <= this.value && this.hasLeftChild) {
-			this.leftChild.addToTree(node);
+	//Node object constructor
+	function Node(value){
+		this.value = value;
+		this.hasLeftChild = false;
+		this.hasRightChild = false;
+
+		this.setLeft = function(node) {
+			this.leftChild = node;
+			this.hasLeftChild = true;
 		}
-		else if (node.value <= this.value && !this.hasLeftChild) {
-			this.setLeft(node);
+
+		this.setRight = function(node) {
+			this.rightChild = node;
+			this.hasRightChild = true;
 		}
-		else if (node.value > this.value && this.hasRightChild) {
-			this.rightChild.addToTree(node);
+
+		this.printTree = function() {
+			
+			//print left tree
+			if (this.hasLeftChild) {
+				this.leftChild.printTree();
+			}
+			
+			//print parent value
+			console.log(value + " ");
+
+			//print right tree
+			if (this.hasRightChild) {
+				this.rightChild.printTree();
+			}
 		}
-		else if (node.value > this.value && !this.hasRightChild) {
-			this.setRight(node);
+
+		//adds node to tree with current node as the head
+		this.addToTree = function(node) {
+			if (node.value <= this.value && this.hasLeftChild) {
+				this.leftChild.addToTree(node);
+			}
+			else if (node.value <= this.value && !this.hasLeftChild) {
+				this.setLeft(node);
+			}
+			else if (node.value > this.value && this.hasRightChild) {
+				this.rightChild.addToTree(node);
+			}
+			else if (node.value > this.value && !this.hasRightChild) {
+				this.setRight(node);
+			}
 		}
 	}
-}
-	
-
-
 </script>

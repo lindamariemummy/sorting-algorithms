@@ -1,64 +1,68 @@
 <script>
-var toBeSorted = [5,1,8, 7, 44, 88, 2, 0];
-var sorted = breakList(toBeSorted);
+	var toBeSorted = [5,1,8, -3,4,2.4,6,5, 44, 88, 2, 0];
+	var sorted = [];
+	
+ 	console.log("Unsorted array:" + toBeSorted);
 
-console.log("The final sorted list is " + sorted);
+	sorted = breakList(toBeSorted);
 
+	console.log("Sorted array: " + sorted);
 
-function breakList(list) {
-	var splitList1 = [];
-	var splitList2 = [];
-	var splitIndex;
-	var listLength =list.length;
+	//breaks down list into subarray of length 1, recursively recombines sublists using mergeLists()
+	function breakList(list) {
+		var splitList1 = [];
+		var splitList2 = [];
+		var splitIndex;
+		var listLength =list.length;
 
-	if(listLength == 1) {
-		return list;
-	}
-	else { 
-		splitIndex = Math.floor(listLength * 0.5);
-		splitList1 = breakList(list.slice(0, splitIndex));
-		splitList2 = breakList(list.slice(splitIndex, listLength+1)); 
-		return mergeLists(splitList1, splitList2);
-	}
-}
-
-//assumes list1 and list2 are sorted 
-function mergeLists(list1, list2) {
-
-	var counter1 = 0;
-	var counter2 = 0;
-	var sortedArray = [];
-	var sortedArrayCounter = 0;
-
-	//merges lists
-	while(sortedArrayCounter<(list1.length + list2.length))
-	{
-		//list1 is done, so use list2
-		if (counter1 == list1.length || list2[counter2] < list1[counter1]) {
-			sortedArray[sortedArrayCounter]=list2[counter2];
-			counter2++
+		if(listLength == 1) { //list is already sorted if it has only one entry
+			return list;
 		}
-		//list2 is done so use list1
-		else if (counter2 == list2.length || list1[counter1] < list2[counter2]) {
-			sortedArray[sortedArrayCounter]=list1[counter1];
-			counter1++
+		else { 
+			splitIndex = Math.floor(listLength * 0.5);
+			splitList1 = breakList(list.slice(0, splitIndex));
+			splitList2 = breakList(list.slice(splitIndex, listLength+1)); 
+			return mergeLists(splitList1, splitList2);
 		}
-		//leading entry in list 2 is larger then leading entry in list 1
-		else if (list1[counter1] < list2[counter2])
+	}
+
+	//assumes list1 and list2 are sorted, merges lists together 
+	function mergeLists(list1, list2) {
+
+		var counter1 = 0;
+		var counter2 = 0;
+		var sortedArray = [];
+		var sortedArrayCounter = 0;
+
+		//merges lists
+		while(sortedArrayCounter<(list1.length + list2.length))
 		{
-			sortedArray[sortedArrayCounter]= list1[counter1];
-			counter1++;
+			//list1 is done, so use list2
+			if (counter1 == list1.length || list2[counter2] < list1[counter1]) {
+				sortedArray[sortedArrayCounter]=list2[counter2];
+				counter2++
+			}
+			//list2 is done so use list1
+			else if (counter2 == list2.length || list1[counter1] < list2[counter2]) {
+				sortedArray[sortedArrayCounter]=list1[counter1];
+				counter1++
+			}
+			//leading entry in list 2 is larger then leading entry in list 1
+			else if (list1[counter1] < list2[counter2])
+			{
+				sortedArray[sortedArrayCounter]= list1[counter1];
+				counter1++;
+			}
+			//leading entry in list 2 is larger (or equal) to leading entry in list 1
+			else if (list2[counter2] <= list1[counter1]){
+				sortedArray[sortedArrayCounter]= list2[counter2];
+				counter2++;
+			}
+			sortedArrayCounter++;
 		}
-		//leading entry in list 2 is larger (or equal) to leading entry in list 1
-		else if (list2[counter2] < list1[counter1]){
-			sortedArray[sortedArrayCounter]= list2[counter2];
-			counter2++;
-		}
-		sortedArrayCounter++;
+
+		//returns array (which is now sorted in increasing order)
+		return sortedArray;
+
 	}
-
-	//returns array (which is now sorted in increasing order)
-	return sortedArray;
-
-}
 </script>

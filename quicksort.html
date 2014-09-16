@@ -1,62 +1,53 @@
 <script>
 
-/*var today = new Date();
-var time1 = today.getTime();
-var time2;
-var timeChange;*/
+	list = [9, 1,5,0,10,4,34, 5, 2, -3,-2.3, 4.5,3, 4, 5, 6, 7, 8, 9, 7, 4,2,7,0,4,2,9,0,4];
+	console.log("Original list: " +list);
+	
+	//apply quicksort to list
+	partition(0,list.length - 1);
+	
+	console.log("Sorted list: " + list);
 
-list = [9, 1,5,0,10,4,34, 5, 2, 3, 4, 5, 6, 7, 8, 9, 7, 4,2,7,0,4,2,9,0,4];
-console.log("Original list: " +list);
-partition(0,list.length - 1);
-console.log("Sorted list: " + list);
-//time2 = today.getTime();
 
-//timeChange = time2-time1;
-//console.log(timeChange);
+	function partition(lIndex,rIndex) {
+		var counter = lIndex;
+		var begPivotIndex = Math.floor((rIndex-lIndex) * 0.5+lIndex); //selects center element from list as pivot
+		var pivotValue = list[begPivotIndex];
+		var temp;
 
-function partition(lIndex,rIndex) {
-	//console.log("Original list: " + list);
-	var counter = lIndex;
-	var begPivotIndex = Math.floor((rIndex-lIndex) * 0.5+lIndex);
-	var pivotValue = list[begPivotIndex];
-	var temp;
+		if (lIndex == rIndex) {
+			console.log("error");
+			return;
+		}
+		else {
+			//swap pivot value to end
+			temp = list[rIndex];
+			list[rIndex] =list[begPivotIndex];
+			list[begPivotIndex]=temp;
 
-	if (lIndex == rIndex) {
-		console.log("error");
-		return;
-	}
-	else {
-		//swap pivot value to end
-		temp = list[rIndex];
-		list[rIndex] =list[begPivotIndex];
-		list[begPivotIndex]=temp;
+			//steps through values in sublist, unswaps pivot for last step
+			for (var i = lIndex; i < rIndex; i++)
+			{
+				if (list[i] <= pivotValue) {
+					temp = list[counter];
+					list[counter] = list[i];
+					list[i] = temp;
+					counter++;
+				}
+			}
+				
+			//unswap pivot
+			temp = list[rIndex];
+			list[rIndex] =list[counter];
+			list[counter]=temp;
 
-		//console.log("After pivot swap: " + list);
-
-		//steps through values in sublist, unswaps pivot for last step
-		for (var i = lIndex; i < rIndex; i++)
-		{
-			if (list[i] <= pivotValue) {
-				temp = list[counter];
-				list[counter] = list[i];
-				list[i] = temp;
-				counter++;
+			//resursively applies sorting algorithm to left and right partitions
+			if (lIndex < counter - 1) {
+				partition(lIndex, counter-1);
+			}
+			if (counter+1 < rIndex) {
+				partition(counter+1,rIndex);
 			}
 		}
-		//console.log("After 1 iteration of quicksort: " + list);
-			
-			//unswap pivot
-		temp = list[rIndex];
-		list[rIndex] =list[counter];
-		list[counter]=temp;
-
-		//console.log("After final pivot swap: " + list);
-		if (lIndex < counter - 1) {
-			partition(lIndex, counter-1);
-		}
-		if (counter+1 < rIndex) {
-			partition(counter+1,rIndex);
-		}
 	}
-}
 </script>
